@@ -22,7 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     
     if(picture != null) {
       setState(() {
-        _imageUser =null;
+        _imageUser = null;
         _imageUser = picture;
       });
     }

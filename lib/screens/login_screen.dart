@@ -11,14 +11,27 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
-  final txtEmail = TextFormField(
-    decoration: const InputDecoration(
-        label: Text('Email user'), border: OutlineInputBorder()),
+
+  final txtEmail = const FractionallySizedBox(
+    widthFactor: 0.5,
+    child: TextField(
+      decoration: InputDecoration(
+        label: Text('Email user'), 
+        border: OutlineInputBorder(),
+      ),
+    ),
   );
-  final txtPass = TextFormField(
-    decoration: const InputDecoration(
-        label: Text('Password user'), border: OutlineInputBorder()),
+
+  final txtPass = const FractionallySizedBox(
+    widthFactor: 0.5,
+    child: TextField(
+      decoration: InputDecoration(
+        label: Text('Password user'), 
+        border: OutlineInputBorder()
+      ),
+    ),
   );
+
   final spaceHorizont = SizedBox(height: 10);
 
   final btngoogle = SocialLoginButton(
@@ -28,10 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final btngit = SocialLoginButton(
       buttonType: SocialLoginButtonType.github, onPressed: () {});
 
-  final imgLogo = Image.asset(
-    'assets/itc.png',
-    height: 200,
-  );
   @override
   Widget build(BuildContext context) {
     final txtRegister = Padding(
@@ -59,7 +68,12 @@ class _LoginScreenState extends State<LoginScreen> {
           });
         });
 
-    return Scaffold(
+    final Size size = MediaQuery.of(context).size;
+
+    if (size.width > 1000) {
+      print("desktop");
+      
+      return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -93,8 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   Positioned(
-                    top: 100,
-                    child: imgLogo,
+                    top: 50,
+                    left: 70,
+                    child: Image.asset('assets/itc.png', height: 230),
                   )
                 ],
               ),
@@ -103,6 +118,63 @@ class _LoginScreenState extends State<LoginScreen> {
           isLoading ? const LoadingModalWidget() : Container()
         ],
       ),
-    );
+    );  
+    } else {
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      opacity: .4,
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/wallpaper.jpg'))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const TextField(
+                          decoration: InputDecoration(
+                            label: Text('Email user'), 
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        spaceHorizont,
+                        const TextField(
+                          decoration: InputDecoration(
+                            label: Text('Password user'), 
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        spaceHorizont,
+                        btnEmail,
+                        spaceHorizont,
+                        btngoogle,
+                        spaceHorizont,
+                        btnface,
+                        spaceHorizont,
+                        btngit,
+                        spaceHorizont,
+                        txtRegister
+                      ],
+                    ),
+                    Positioned(
+                      top: 30,
+                      child: Image.asset('assets/itc.png', height: 170),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            isLoading ? const LoadingModalWidget() : Container()
+          ],
+        ),
+      );
+    }
   }
 }
